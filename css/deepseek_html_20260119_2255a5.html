@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Store - Windows 7 Explorer Stil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Tahoma', Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #e6eef5;
+            color: #2b2b2b;
+            height: 100vh;
+            overflow: hidden;
+            font-size: 13px;
+        }
+
+        /* Стиль для окна проводника */
+        .explorer-window {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f1f5fb;
+            border: 1px solid #a5c5ef;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Заголовок окна */
+        .title-bar {
+            background: linear-gradient(to bottom, #3c7bc4, #1c5aa0);
+            color: white;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            border-bottom: 1px solid #1a4985;
+        }
+
+        .window-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+
+        .window-controls {
+            display: flex;
+        }
+
+        .window-btn {
+            width: 30px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        .window-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .close-btn:hover {
+            background: #e81123;
+        }
+
+        /* Панель навигации */
+        .nav-bar {
+            background: linear-gradient(to bottom, #f2f7fd, #e6edf8);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            border-bottom: 1px solid #c5d4e9;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .nav-button {
+            padding: 5px 12px;
+            background: linear-gradient(to bottom, #f6f9fd, #e4ebf5);
+            border: 1px solid #b8c9e2;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(to bottom, #ffffff, #f0f5fc);
+            border-color: #9cb4d8;
+        }
+
+        .address-bar {
+            flex-grow: 1;
+            margin: 0 15px;
+            height: 26px;
+            background: white;
+            border: 1px solid #a5bde8;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 12px;
+            color: #3a6bc1;
+        }
+
+        .search-box {
+            width: 200px;
+            height: 26px;
+            background: white;
+            border: 1px solid #a5bde8;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            width: 100%;
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        /* Основное содержимое */
+        .main-content {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        /* Левая панель навигации */
+        .navigation-pane {
+            width: 240px;
+            background: linear-gradient(to right, #f8fafd, #f2f6fc);
+            border-right: 1px solid #c5d4e9;
+            padding: 15px 0;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 25px;
+        }
+
+        .nav-section-title {
+            font-weight: bold;
+            color: #1c5aa0;
+            padding: 5px 15px;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item {
+            padding: 7px 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background-color: #e1ebf9;
+            border-left-color: #3c7bc4;
+        }
+
+        .nav-item.active {
+            background-color: #d5e3f7;
+            border-left-color: #3c7bc4;
+            font-weight: bold;
+        }
+
+        .nav-icon {
+            width: 16px;
+            text-align: center;
+            color: #3c7bc4;
+        }
+
+        .nav-drive {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .drive-space {
+            font-size: 11px;
+            color: #666;
+        }
+
+        /* Правая панель содержимого */
+        .content-pane {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: white;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #d5e1f0;
+        }
+
+        .content-title {
+            font-size: 22px;
+            color: #1c5aa0;
+            font-weight: normal;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .view-option {
+            padding: 5px 12px;
+            background: linear-gradient(to bottom, #f6f9fd, #e4ebf5);
+            border: 1px solid #b8c9e2;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .view-option.active {
+            background: linear-gradient(to bottom, #e1ebf9, #d5e3f7);
+            border-color: #3c7bc4;
+        }
+
+        /* Карточки приложений */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .app-item {
+            background: #f8fafd;
+            border: 1px solid #d5e1f0;
+            border-radius: 5px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .app-item:hover {
+            background: #eef5ff;
+            border-color: #a5c5ef;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .app-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #3c7bc4, #1c5aa0);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            color: white;
+            font-size: 28px;
+        }
+
+        .app-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #1c5aa0;
+        }
+
+        .app-description {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 10px;
+            height: 32px;
+            overflow: hidden;
+        }
+
+        .app-price {
+            background: #3c7bc4;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .app-price.free {
+            background: #4caf50;
+        }
+
+        /* Панель деталей */
+        .details-pane {
+            width: 300px;
+            background: linear-gradient(to right, #f8fafd, #f2f6fc);
+            border-left: 1px solid #c5d4e9;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .details-header {
+            color: #1c5aa0;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #d5e1f0;
+        }
+
+        .system-info {
+            background: white;
+            border: 1px solid #d5e1f0;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-label {
+            color: #666;
+        }
+
+        .info-value {
+            font-weight: bold;
+            color: #1c5aa0;
+        }
+
+        /* Статус бар */
+        .status-bar {
+            height: 22px;
+            background: linear-gradient(to bottom, #f2f7fd, #e6edf8);
+            border-top: 1px solid #c5d4e9;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .status-item {
+            margin-right: 20px;
+        }
+
+        .selected-count {
+            font-weight: bold;
+            color: #1c5aa0;
+        }
+
+        /* Полоса прокрутки */
+        ::-webkit-scrollbar {
+            width: 16px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5fb;
+            border-left: 1px solid #d5e1f0;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c5d4e9;
+            border: 3px solid #f1f5fb;
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a5bde8;
+        }
+    </style>
+</head>
+<body>
+    <div class="explorer-window">
+        <!-- Заголовок окна -->
+        <div class="title-bar">
+            <div class="window-title">
+                <i class="fas fa-store"></i>
+                <span>Windows Store</span>
+            </div>
+            <div class="window-controls">
+                <div class="window-btn minimize-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="window-btn maximize-btn">
+                    <i class="fas fa-square"></i>
+                </div>
+                <div class="window-btn close-btn">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Панель навигации -->
+        <div class="nav-bar">
+            <div class="nav-buttons">
+                <div class="nav-button">
+                    <i class="fas fa-arrow-left"></i>
+                    Zurück
+                </div>
+                <div class="nav-button">
+                    <i class="fas fa-arrow-right"></i>
+                    Vorwärts
+                </div>
+            </div>
+            
+            <div class="address-bar">
+                <i class="fas fa-store" style="margin-right: 5px;"></i>
+                Windows Store > Startseite
+            </div>
+            
+            <div class="search-box">
+                <i class="fas fa-search" style="color: #666;"></i>
+                <input type="text" placeholder="Store durchsuchen">
+            </div>
+        </div>
+
+        <!-- Основное содержимое -->
+        <div class="main-content">
+            <!-- Левая панель навигации -->
+            <div class="navigation-pane">
+                <div class="nav-section">
+                    <div class="nav-section-title">Organisieren</div>
+                    <ul class="nav-list">
+                        <li class="nav-item active">
+                            <div class="nav-icon"><i class="fas fa-home"></i></div>
+                            <div>Startseite</div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-star"></i></div>
+                            <div>Favoriten</div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-download"></i></div>
+                            <div>Downloads</div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-history"></i></div>
+                            <div>Zuletzt besucht</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Kategorien</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-gamepad"></i></div>
+                            <div>Spiele</div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-film"></i></div>
+                            <div>Filme & TV</div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-music"></i></div>
+                            <div>Musik</div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-book"></i></div>
+                            <div>Bücher</div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-briefcase"></i></div>
+                            <div>Business</div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-graduation-cap"></i></div>
+                            <div>Bildung</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Bibliotheken</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-images"></i></div>
+                            <div>Installierte Apps</div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-file"></i></div>
+                            <div>Updates verfügbar</div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-icon"><i class="fas fa-folder"></i></div>
+                            <div>Meine Sammlung</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Computer</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <div class="nav-drive">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div class="nav-icon"><i class="fas fa-hdd"></i></div>
+                                    <div>System (C:)</div>
+                                </div>
+                                <div class="drive-space">183 GB frei</div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <div class="nav-drive">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div class="nav-icon"><i class="fas fa-hdd"></i></div>
+                                    <div>Daten (D:)</div>
+                                </div>
+                                <div class="drive-space">683 GB frei</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Центральная панель с содержимым -->
+            <div class="content-pane">
+                <div class="content-header">
+                    <h1 class="content-title">Windows Store - Empfohlene Apps</h1>
+                    <div class="view-options">
+                        <div class="view-option active">Symbole</div>
+                        <div class="view-option">Liste</div>
+                        <div class="view-option">Details</div>
+                    </div>
+                </div>
+
+                <div class="apps-grid">
+                    <!-- Приложение 1 -->
+                    <div class="app-item">
+                        <div class="app-icon">
+                            <i class="fab fa-microsoft"></i>
+                        </div>
+                        <div class="app-name">Microsoft Office</div>
+                        <div class="app-description">Produktivitäts-Suite mit Word, Excel, PowerPoint</div>
+                        <div class="app-price">Ab 69,99 €</div>
+                    </div>
+
+                    <!-- Приложение 2 -->
+                    <div class="app-item">
+                        <div class="app-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <div class="app-name">Minecraft</div>
+                        <div class="app-description">Sandbox-Spiel mit unendlichen Möglichkeiten</div>
+                        <div class="app-price">26,95 €</div>
+                    </div>
+
+                    <!-- Приложение 3 -->
+                    <div class="app-item">
+                        <div class="app-icon">
+                            <i class="fab fa-spotify"></i>
+                        </div>
+                        <div class="app-name">Spotify</div>
+                        <div class="app-description">Musik-Streaming mit Millionen von Songs</div>
+                        <div class="app-price free">Kostenlos</div>
+                    </div>
+
+                    <!-- Приложение 4 -->
+                    <div class="app-item">
+                        <div class="app-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="app-name">WhatsApp Desktop</div>
+                        <div class="app-description">Nachrichten-App für den Computer</div>
+                        <div class="app-price free">Kostenlos</div>
+                    </div>
+
+                    <!-- Приложение 5 -->
+                    <div class="app-item">
+                        <div class="app-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="app-name">VLC Media Player</div>
+                        <div class="app-description">Universal-Medienplayer für alle Formate</div>
+                        <div class="app-price free">Kostenlos</div>
+                    </div>
+
+                    <!-- Приложение 6 -->
+                    <div class="app-item">
+                        <div class="app-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="app-name">Dropbox</div>
+                        <div class="app-description">Cloud-Speicher für Dateien und Fotos</div>
+                        <div class="app-price free">Kostenlos</div>
+                    </div>
+
+                    <!-- Приложение 7 -->
+                    <div class="app-item">
+                        <div class="app-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <div class="app-name">Paint.NET</div>
+                        <div class="app-description">Bildbearbeitungssoftware für Windows</div>
+                        <div class="app-price free">Kostenlos</div>
+                    </div>
+
+                    <!-- Приложение 8 -->
+                    <div class="app-item">
+                        <div class="app-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="app-name">Malwarebytes</div>
+                        <div class="app-description">Schutz vor Malware und Viren</div>
+                        <div class="app-price">Ab 39,99 €/Jahr</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая панель деталей -->
+            <div class="details-pane">
+                <div class="details-header">Systemeigenschaften</div>
+                
+                <div class="system-info">
+                    <div class="info-item">
+                        <span class="info-label">Computer:</span>
+                        <span class="info-value">CB834049</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Domäne:</span>
+                        <span class="info-value">cbham.de</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Arbeitsspeicher:</span>
+                        <span class="info-value">4,00 GB</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Prozessor:</span>
+                        <span class="info-value">Intel(R) Core(TM)2 Duo</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Systemtyp:</span>
+                        <span class="info-value">64-Bit-Betriebssystem</span>
+                    </div>
+                </div>
+
+                <div class="details-header" style="margin-top: 25px;">Festplatten</div>
+                
+                <div class="system-info">
+                    <div class="info-item">
+                        <span class="info-label">System (C:)</span>
+                        <span class="info-value">183 GB frei von 279 GB</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Daten (D:)</span>
+                        <span class="info-value">683 GB frei von 931 GB</span>
+                    </div>
+                </div>
+
+                <div class="details-header" style="margin-top: 25px;">Geräte mit Wechselmedien</div>
+                
+                <div class="system-info">
+                    <div class="info-item">
+                        <span class="info-label">DVD-RW-Laufwerk (A:)</span>
+                        <span class="info-value">Keine Disk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статус бар -->
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="selected-count">8 Element(e)</span> ausgewählt
+            </div>
+            <div class="status-item">
+                Windows Store Version 2.1.0
+            </div>
+            <div class="status-item" style="margin-left: auto;">
+                © 2023 Microsoft Corporation
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Функциональность кнопок управления окном
+        document.querySelector('.minimize-btn').addEventListener('click', function() {
+            alert('Fenster wird minimiert (in einer echten Anwendung)');
+        });
+        
+        document.querySelector('.maximize-btn').addEventListener('click', function() {
+            alert('Fenster wird maximiert (in einer echten Anwendung)');
+        });
+        
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            if(confirm('Windows Store schließen?')) {
+                alert('Anwendung wird geschlossen (in einer echten Anwendung)');
+            }
+        });
+
+        // Навигация по элементам левой панели
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Обновление адресной строки в зависимости от выбранного элемента
+                const itemText = this.querySelector('div:nth-child(2)').textContent;
+                document.querySelector('.address-bar').innerHTML = `
+                    <i class="fas fa-store" style="margin-right: 5px;"></i>
+                    Windows Store > ${itemText}
+                `;
+            });
+        });
+
+        // Переключение вида отображения
+        document.querySelectorAll('.view-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.view-option').forEach(viewOpt => {
+                    viewOpt.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Изменение стиля отображения приложений
+                const viewType = this.textContent;
+                const appsGrid = document.querySelector('.apps-grid');
+                
+                if (viewType === 'Liste') {
+                    appsGrid.style.gridTemplateColumns = '1fr';
+                    appsGrid.style.gap = '10px';
+                } else if (viewType === 'Details') {
+                    appsGrid.style.gridTemplateColumns = '1fr';
+                    appsGrid.style.gap = '5px';
+                } else {
+                    appsGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(180px, 1fr))';
+                    appsGrid.style.gap = '20px';
+                }
+            });
+        });
+
+        // Выбор приложений
+        document.querySelectorAll('.app-item').forEach(app => {
+            app.addEventListener('click', function() {
+                this.classList.toggle('selected');
+                
+                // Подсчет выбранных элементов
+                const selectedCount = document.querySelectorAll('.app-item.selected').length;
+                document.querySelector('.selected-count').textContent = selectedCount;
+            });
+        });
+
+        // Обработка поиска
+        document.querySelector('.search-box input').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                alert('Suche nach: ' + this.value);
+            }
+        });
+
+        // Кнопки навигации
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const direction = this.textContent.trim();
+                alert(`Navigiere ${direction.toLowerCase()} (in einer echten Anwendung)`);
+            });
+        });
+    </script>
+</body>
+</html>

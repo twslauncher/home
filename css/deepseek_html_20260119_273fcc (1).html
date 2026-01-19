@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог программ для скачивания</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .search-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e1e5eb;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #2575fc;
+        }
+        
+        .search-btn {
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .search-btn:hover {
+            background-color: #1c64e0;
+        }
+        
+        .filter-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-btn {
+            background-color: white;
+            border: 2px solid #e1e5eb;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: #2575fc;
+            color: white;
+            border-color: #2575fc;
+        }
+        
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .program-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .program-header {
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .program-icon {
+            width: 60px;
+            height: 60px;
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+            color: #2575fc;
+        }
+        
+        .program-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+        
+        .program-category {
+            display: inline-block;
+            background-color: #f0f7ff;
+            color: #2575fc;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .program-body {
+            padding: 20px;
+        }
+        
+        .program-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .program-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .download-btn {
+            display: block;
+            width: 100%;
+            background-color: #2575fc;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .download-btn:hover {
+            background-color: #1c64e0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid #e1e5eb;
+            margin-top: 30px;
+        }
+        
+        .add-program-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-top: 40px;
+            display: none;
+        }
+        
+        .add-program-form h2 {
+            margin-bottom: 20px;
+            color: #2575fc;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5eb;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-btn {
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn {
+            background-color: #2575fc;
+            color: white;
+        }
+        
+        .submit-btn:hover {
+            background-color: #1c64e0;
+        }
+        
+        .cancel-btn {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .show-form-btn {
+            display: block;
+            margin: 0 auto 30px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .show-form-btn:hover {
+            background-color: #218838;
+        }
+        
+        @media (max-width: 768px) {
+            .programs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-section {
+                justify-content: center;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Каталог программ для скачивания</h1>
+            <p class="subtitle">Найдите и скачайте необходимое программное обеспечение. Все программы проверены на безопасность и доступны для бесплатной загрузки.</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section class="search-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Поиск программ по названию или описанию...">
+                <button class="search-btn" id="searchBtn">Поиск</button>
+            </div>
+        </section>
+        
+        <section class="filter-section">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Все программы</button>
+                <button class="filter-btn" data-filter="office">Офисные</button>
+                <button class="filter-btn" data-filter="multimedia">Мультимедиа</button>
+                <button class="filter-btn" data-filter="internet">Интернет</button>
+                <button class="filter-btn" data-filter="system">Системные</button>
+                <button class="filter-btn" data-filter="security">Безопасность</button>
+            </div>
+        </section>
+        
+        <button class="show-form-btn" id="showFormBtn">+ Добавить новую программу</button>
+        
+        <section class="programs-grid" id="programsGrid">
+            <!-- Программы будут загружены через JavaScript -->
+        </section>
+        
+        <section class="add-program-form" id="addProgramForm">
+            <h2>Добавить новую программу</h2>
+            <form id="programForm">
+                <div class="form-group">
+                    <label for="programName">Название программы:</label>
+                    <input type="text" id="programName" required>
+                </div>
+                <div class="form-group">
+                    <label for="programCategory">Категория:</label>
+                    <select id="programCategory" required>
+                        <option value="">Выберите категорию</option>
+                        <option value="office">Офисные</option>
+                        <option value="multimedia">Мультимедиа</option>
+                        <option value="internet">Интернет</option>
+                        <option value="system">Системные</option>
+                        <option value="security">Безопасность</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="programVersion">Версия:</label>
+                    <input type="text" id="programVersion" required>
+                </div>
+                <div class="form-group">
+                    <label for="programSize">Размер:</label>
+                    <input type="text" id="programSize" placeholder="Например: 150 МБ" required>
+                </div>
+                <div class="form-group">
+                    <label for="programDescription">Описание:</label>
+                    <textarea id="programDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="programIcon">Иконка (эмодзи):</label>
+                    <input type="text" id="programIcon" placeholder="Например: 📊" required>
+                </div>
+                <div class="form-group">
+                    <label for="programDownloadUrl">Ссылка для скачивания:</label>
+                    <input type="text" id="programDownloadUrl" placeholder="https://..." required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="form-btn submit-btn">Добавить программу</button>
+                    <button type="button" class="form-btn cancel-btn" id="cancelBtn">Отмена</button>
+                </div>
+            </form>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Каталог программ для скачивания. Все права защищены.</p>
+            <p>Все программы предоставляются как есть. Загружайте программное обеспечение только из доверенных источников.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Исходные данные программ
+        const programs = [
+            {
+                id: 1,
+                name: "LibreOffice",
+                category: "office",
+                version: "7.5.2",
+                size: "320 МБ",
+                description: "Мощный бесплатный офисный пакет с поддержкой форматов Microsoft Office.",
+                icon: "📊",
+                downloadUrl: "#"
+            },
+            {
+                id: 2,
+                name: "VLC Media Player",
+                category: "multimedia",
+                version: "3.0.18",
+                size: "45 МБ",
+                description: "Универсальный медиаплеер, воспроизводящий практически все форматы видео и аудио.",
+                icon: "🎬",
+                downloadUrl: "#"
+            },
+            {
+                id: 3,
+                name: "Firefox",
+                category: "internet",
+                version: "112.0",
+                size: "65 МБ",
+                description: "Быстрый и безопасный браузер с открытым исходным кодом и поддержкой расширений.",
+                icon: "🌐",
+                downloadUrl: "#"
+            },
+            {
+                id: 4,
+                name: "7-Zip",
+                category: "system",
+                version: "22.01",
+                size: "2 МБ",
+                description: "Архиватор с высокой степенью сжатия и поддержкой множества форматов.",
+                icon: "📦",
+                downloadUrl: "#"
+            },
+            {
+                id: 5,
+                name: "Avast Free Antivirus",
+                category: "security",
+                version: "23.3",
+                size: "850 МБ",
+                description: "Бесплатный антивирус с защитой от вредоносных программ и фишинговых атак.",
+                icon: "🛡️",
+                downloadUrl: "#"
+            },
+            {
+                id: 6,
+                name: "GIMP",
+                category: "multimedia",
+                version: "2.10.34",
+                size: "210 МБ",
+                description: "Мощный графический редактор с открытым исходным кодом для обработки изображений.",
+                icon: "🎨",
+                downloadUrl: "#"
+            }
+        ];
+
+        // Загрузка программ в сетку
+        function loadPrograms(programsToLoad) {
+            const programsGrid = document.getElementById('programsGrid');
+            programsGrid.innerHTML = '';
+            
+            programsToLoad.forEach(program => {
+                const categoryNames = {
+                    'office': 'Офисные',
+                    'multimedia': 'Мультимедиа',
+                    'internet': 'Интернет',
+                    'system': 'Системные',
+                    'security': 'Безопасность'
+                };
+                
+                const programCard = document.createElement('div');
+                programCard.className = 'program-card';
+                programCard.dataset.category = program.category;
+                
+                programCard.innerHTML = `
+                    <div class="program-header">
+                        <div class="program-icon">${program.icon}</div>
+                        <div class="program-info">
+                            <h3>${program.name}</h3>
+                            <span class="program-category">${categoryNames[program.category]}</span>
+                        </div>
+                    </div>
+                    <div class="program-body">
+                        <p class="program-description">${program.description}</p>
+                        <div class="program-details">
+                            <span>Версия: ${program.version}</span>
+                            <span>Размер: ${program.size}</span>
+                        </div>
+                        <a href="${program.downloadUrl}" class="download-btn" download>Скачать</a>
+                    </div>
+                `;
+                
+                programsGrid.appendChild(programCard);
+            });
+        }
+        
+        // Поиск программ
+        function searchPrograms(query) {
+            const filtered = programs.filter(program => 
+                program.name.toLowerCase().includes(query.toLowerCase()) || 
+                program.description.toLowerCase().includes(query.toLowerCase())
+            );
+            loadPrograms(filtered);
+        }
+        
+        // Фильтрация программ
+        function filterPrograms(category) {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                loadPrograms(programs);
+            } else {
+                const filtered = programs.filter(program => program.category === category);
+                loadPrograms(filtered);
+            }
+        }
+        
+        // Добавление новой программы
+        function addProgram(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('programName').value;
+            const category = document.getElementById('programCategory').value;
+            const version = document.getElementById('programVersion').value;
+            const size = document.getElementById('programSize').value;
+            const description = document.getElementById('programDescription').value;
+            const icon = document.getElementById('programIcon').value;
+            const downloadUrl = document.getElementById('programDownloadUrl').value;
+            
+            const newProgram = {
+                id: programs.length + 1,
+                name,
+                category,
+                version,
+                size,
+                description,
+                icon,
+                downloadUrl
+            };
+            
+            programs.push(newProgram);
+            loadPrograms(programs);
+            
+            // Сброс формы и скрытие
+            document.getElementById('programForm').reset();
+            document.getElementById('addProgramForm').style.display = 'none';
+            document.getElementById('showFormBtn').style.display = 'block';
+            
+            // Показываем уведомление
+            alert(`Программа "${name}" успешно добавлена!`);
+        }
+        
+        // Инициализация страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            // Загружаем все программы при запуске
+            loadPrograms(programs);
+            
+            // Поиск
+            document.getElementById('searchBtn').addEventListener('click', () => {
+                const query = document.getElementById('searchInput').value;
+                searchPrograms(query);
+            });
+            
+            document.getElementById('searchInput').addEventListener('keyup', (event) => {
+                if (event.key === 'Enter') {
+                    const query = document.getElementById('searchInput').value;
+                    searchPrograms(query);
+                }
+            });
+            
+            // Фильтрация
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const category = button.dataset.filter;
+                    filterPrograms(category);
+                });
+            });
+            
+            // Показ/скрытие формы добавления
+            document.getElementById('showFormBtn').addEventListener('click', () => {
+                document.getElementById('addProgramForm').style.display = 'block';
+                document.getElementById('showFormBtn').style.display = 'none';
+            });
+            
+            document.getElementById('cancelBtn').addEventListener('click', () => {
+                document.getElementById('addProgramForm').style.display = 'none';
+                document.getElementById('showFormBtn').style.display = 'block';
+                document.getElementById('programForm').reset();
+            });
+            
+            // Добавление новой программы
+            document.getElementById('programForm').addEventListener('submit', addProgram);
+        });
+    </script>
+</body>
+</html>

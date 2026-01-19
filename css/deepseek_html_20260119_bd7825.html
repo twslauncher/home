@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Store - Windows 7 стиль</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #1a1a2e;
+            color: #f0f0f0;
+            min-height: 100vh;
+            background-image: linear-gradient(rgba(0, 40, 80, 0.7), rgba(0, 20, 40, 0.9)), 
+                              url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1928&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        /* Стили для заголовка окна */
+        .window-header {
+            background: linear-gradient(to bottom, #0a5fa9, #08427a);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid #1c6ea0;
+            border-bottom: none;
+        }
+
+        .window-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .window-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .window-btn {
+            width: 30px;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .window-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .close-btn:hover {
+            background: #e81123;
+        }
+
+        /* Основной контейнер */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        /* Навигационная панель */
+        .navbar {
+            background: rgba(30, 60, 100, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: #c0d8f0;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: rgba(10, 95, 169, 0.5);
+            color: white;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            padding: 5px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 5px;
+            width: 200px;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Контент магазина */
+        .store-content {
+            background: rgba(20, 40, 70, 0.7);
+            backdrop-filter: blur(15px);
+            min-height: 600px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .category-header {
+            margin-bottom: 25px;
+        }
+
+        .category-title {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #8bc1f7;
+        }
+
+        .category-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        /* Приложения в магазине */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .app-card {
+            background: rgba(40, 70, 110, 0.6);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+
+        .app-card:hover {
+            background: rgba(50, 90, 140, 0.8);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #0a5fa9, #2a9df4);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 36px;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-name {
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .app-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .app-price {
+            background: rgba(10, 95, 169, 0.7);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            align-self: stretch;
+        }
+
+        .free-price {
+            background: rgba(30, 130, 30, 0.7);
+        }
+
+        /* Футер */
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Стили для выделенных приложений */
+        .featured-apps {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .featured-app {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(50, 90, 140, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .featured-app-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #2a9df4, #0a5fa9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+
+        .featured-app-info {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .featured-app-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #8bc1f7;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .search-box input {
+                width: 100%;
+            }
+            
+            .featured-app {
+                flex-direction: column;
+            }
+            
+            .featured-app-icon {
+                width: 100%;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Заголовок окна -->
+        <div class="window-header">
+            <div class="window-title">
+                <i class="fas fa-store"></i>
+                <span>Windows Store</span>
+            </div>
+            <div class="window-controls">
+                <div class="window-btn minimize-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="window-btn maximize-btn">
+                    <i class="fas fa-square"></i>
+                </div>
+                <div class="window-btn close-btn">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Навигационная панель -->
+        <div class="navbar">
+            <div class="nav-links">
+                <a href="#" class="nav-link active"><i class="fas fa-home"></i> Главная</a>
+                <a href="#" class="nav-link"><i class="fas fa-gamepad"></i> Игры</a>
+                <a href="#" class="nav-link"><i class="fas fa-film"></i> Фильмы и ТВ</a>
+                <a href="#" class="nav-link"><i class="fas fa-music"></i> Музыка</a>
+                <a href="#" class="nav-link"><i class="fas fa-book"></i> Книги</a>
+                <a href="#" class="nav-link"><i class="fas fa-shopping-cart"></i> Мои покупки</a>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Поиск приложений, игр и медиа">
+            </div>
+        </div>
+
+        <!-- Контент магазина -->
+        <div class="store-content">
+            <!-- Выделенные приложения -->
+            <div class="featured-apps">
+                <div class="featured-app">
+                    <div class="featured-app-icon">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <div class="featured-app-info">
+                        <div class="featured-app-name">Microsoft Office 2023</div>
+                        <p class="app-description">Полный пакет офисных приложений для работы с документами, таблицами и презентациями</p>
+                        <div class="app-price">От 3 999 ₽</div>
+                    </div>
+                </div>
+                <div class="featured-app">
+                    <div class="featured-app-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="featured-app-info">
+                        <div class="featured-app-name">Minecraft: Windows 7 Edition</div>
+                        <p class="app-description">Классическая игра в мире блоков с оптимизацией для Windows 7</p>
+                        <div class="app-price free-price">Бесплатно</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Рекомендуемые приложения -->
+            <div class="category-header">
+                <h2 class="category-title">Рекомендуемые приложения</h2>
+                <p class="category-subtitle">Лучшие приложения, выбранные для вас</p>
+            </div>
+
+            <div class="apps-grid">
+                <!-- Приложение 1 -->
+                <div class="app-card">
+                    <div class="app-icon">
+                        <i class="fab fa-spotify"></i>
+                    </div>
+                    <h3 class="app-name">Spotify</h3>
+                    <p class="app-description">Стриминговый сервис с миллионами песен и подкастов</p>
+                    <div class="app-price free-price">Бесплатно</div>
+                </div>
+
+                <!-- Приложение 2 -->
+                <div class="app-card">
+                    <div class="app-icon">
+                        <i class="fab fa-discord"></i>
+                    </div>
+                    <h3 class="app-name">Discord</h3>
+                    <p class="app-description">Голосовой, видео и текстовый чат для геймеров и сообществ</p>
+                    <div class="app-price free-price">Бесплатно</div>
+                </div>
+
+                <!-- Приложение 3 -->
+                <div class="app-card">
+                    <div class="app-icon">
+                        <i class="fas fa-photo-video"></i>
+                    </div>
+                    <h3 class="app-name">VLC Media Player</h3>
+                    <p class="app-description">Мощный медиаплеер для всех форматов видео и аудио</p>
+                    <div class="app-price free-price">Бесплатно</div>
+                </div>
+
+                <!-- Приложение 4 -->
+                <div class="app-card">
+                    <div class="app-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3 class="app-name">Paint.NET</h3>
+                    <p class="app-description">Простой, но мощный графический редактор для Windows</p>
+                    <div class="app-price free-price">Бесплатно</div>
+                </div>
+
+                <!-- Приложение 5 -->
+                <div class="app-card">
+                    <div class="app-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3 class="app-name">Dropbox</h3>
+                    <p class="app-description">Облачное хранилище для синхронизации файлов между устройствами</p>
+                    <div class="app-price">От 119 ₽/мес</div>
+                </div>
+
+                <!-- Приложение 6 -->
+                <div class="app-card">
+                    <div class="app-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="app-name">Malwarebytes</h3>
+                    <p class="app-description">Защита от вредоносных программ, шпионского ПО и ransomware</p>
+                    <div class="app-price">От 1 299 ₽/год</div>
+                </div>
+
+                <!-- Приложение 7 -->
+                <div class="app-card">
+                    <div class="app-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <h3 class="app-name">Adobe Acrobat Reader</h3>
+                    <p class="app-description">Надежный просмотр, печать и комментирование PDF-документов</p>
+                    <div class="app-price free-price">Бесплатно</div>
+                </div>
+
+                <!-- Приложение 8 -->
+                <div class="app-card">
+                    <div class="app-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="app-name">Zoom</h3>
+                    <p class="app-description">Платформа для видеоконференций и онлайн-встреч</p>
+                    <div class="app-price free-price">Бесплатно</div>
+                </div>
+            </div>
+
+            <!-- Футер -->
+            <div class="footer">
+                <p>© 2023 Microsoft Corporation. Все права защищены.</p>
+                <p>Windows Store для Windows 7 • Версия 2.1.0 • <a href="#" style="color: #8bc1f7; text-decoration: none;">Условия использования</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Имитация кнопок управления окном
+        document.querySelector('.minimize-btn').addEventListener('click', function() {
+            alert('Окно будет свернуто (в реальном приложении)');
+        });
+        
+        document.querySelector('.maximize-btn').addEventListener('click', function() {
+            alert('Окно будет развернуто (в реальном приложении)');
+        });
+        
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            if(confirm('Закрыть Windows Store?')) {
+                alert('Приложение будет закрыто (в реальном приложении)');
+            }
+        });
+
+        // Выделение активной навигационной ссылки
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Анимация при наведении на карточки приложений
+        document.querySelectorAll('.app-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Имитация поиска
+        document.querySelector('.search-box input').addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                alert('Поиск: ' + this.value + ' (в реальном приложении здесь будет отображен результат поиска)');
+            }
+        });
+    </script>
+</body>
+</html>
