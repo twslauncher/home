@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная | TWS Launcher</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-	 <!-- Favicon (иконка сайта) -->
+    <!-- Favicon (иконка сайта) -->
     <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/minecraft-grass.png">
     <!-- Для разных устройств и браузеров -->
     <link rel="apple-touch-icon" sizes="180x180" href="favicon/icon.png">
@@ -640,7 +640,7 @@
             font-size: 0.9rem;
         }
         
-        /* Мобильное меню */
+        /* Мобильное меню - ИСПРАВЛЕННОЕ */
         .mobile-nav {
             position: fixed;
             top: 0;
@@ -651,8 +651,10 @@
             backdrop-filter: blur(10px);
             padding: 100px 30px 30px;
             transition: left 0.4s;
-            z-index: 99;
+            z-index: 999;
             overflow-y: auto;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5);
+            border-right: 2px solid var(--mc-green);
         }
         
         .mobile-nav.active {
@@ -673,6 +675,7 @@
         .mobile-nav ul {
             flex-direction: column;
             gap: 15px;
+            list-style: none;
         }
         
         .mobile-nav a {
@@ -680,6 +683,15 @@
             padding: 20px;
             font-size: 1.2rem;
             border-bottom: 1px solid rgba(91, 124, 58, 0.2);
+            color: var(--mc-light);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .mobile-nav a:hover {
+            background-color: var(--mc-green);
+            color: white;
+            padding-left: 30px;
         }
         
         /* Адаптивность */
@@ -724,6 +736,11 @@
             
             .about-image {
                 order: -1;
+            }
+            
+            .mobile-nav {
+                width: 80%;
+                max-width: 300px;
             }
         }
         
@@ -806,7 +823,7 @@
                         <li><a href="#home" class="active">Главная</a></li>
                         <li><a href="#about">О Лаунчере</a></li>
                         <li><a href="#features">Особенности</a></li>
-                       
+                        <li><a href="#team">Команда</a></li>
                         <li><a href="#contact">Контакты</a></li>
                     </ul>
                 </nav>
@@ -814,16 +831,16 @@
         </div>
     </header>
     
-    <!-- Мобильное меню -->
+    <!-- Мобильное меню - ИСПРАВЛЕННОЕ -->
     <div class="mobile-nav" id="mobileNav">
         <button class="close-menu" id="closeMenu">
             <i class="fas fa-times"></i>
         </button>
         <ul>
             <li><a href="#home" class="active">Главная</a></li>
-            <li><a href="#about">О сервере</a></li>
+            <li><a href="#about">О Лаунчере</a></li>
             <li><a href="#features">Особенности</a></li>
-           
+            <li><a href="#team">Команда</a></li>
             <li><a href="#contact">Контакты</a></li>
         </ul>
     </div>
@@ -836,82 +853,16 @@
             <p>Забудьте о сложностях! Наш лаунчер - это надежный проводник в мир Minecraft. Он позволяет легко управлять всеми версиями игры, от классических Beta до последних снапшотов!</p>
             
             <div class="cta-buttons">
-    <a href="https://disk.yandex.ru/d/HkJYpqrEOZolzw" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-        <i class="fas fa-gamepad"></i> СКАЧАТЬ TWS LAUNCHER
-    </a>
-    <a href="https://vk.com/@twslauncher-repo-download" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-        <i class="fas fa-info-circle"></i> ДРУГИЕ ПРОЕКТЫ TWS LAUNCHER
-    </a>
-	<a href="https://vk.com/@twslauncher" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-        <i class="fas fa-commenting-o"></i> БЛОГ TWS LAUNCHER
-    </a>
-</div>
-
-<style>
-.cta-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    margin-top: 40px;
-    flex-wrap: wrap;
-    flex-direction: row; /* Горизонтальное расположение */
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    padding: 18px 35px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1.1rem;
-    transition: all 0.3s;
-    border: none;
-    cursor: pointer;
-    min-width: 220px;
-    justify-content: center;
-    white-space: nowrap; /* Текст не переносится */
-}
-
-.btn-primary {
-    background: linear-gradient(145deg, var(--mc-green), var(--mc-dark-green));
-    color: white;
-    box-shadow: 0 8px 20px rgba(59, 90, 32, 0.4);
-}
-
-.btn-primary:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(59, 90, 32, 0.6);
-}
-
-.btn-secondary {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(91, 124, 58, 0.3);
-}
-
-.btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.15);
-    transform: translateY(-5px);
-    border-color: var(--mc-green);
-}
-
-/* Для мобильных устройств - вертикальное расположение */
-@media (max-width: 768px) {
-    .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-    }
-    
-    .btn {
-        width: 100%;
-        max-width: 300px;
-    }
-}
-</style>
+                <a href="https://disk.yandex.ru/d/HkJYpqrEOZolzw" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                    <i class="fas fa-gamepad"></i> СКАЧАТЬ TWS LAUNCHER
+                </a>
+                <a href="https://vk.com/@twslauncher-repo-download" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    <i class="fas fa-info-circle"></i> ДРУГИЕ ПРОЕКТЫ TWS LAUNCHER
+                </a>
+                <a href="https://vk.com/@twslauncher" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                    <i class="fas fa-commenting-o"></i> БЛОГ TWS LAUNCHER
+                </a>
+            </div>
         </div>
     </section>
     
@@ -1042,10 +993,6 @@
                     <div class="member-role">Кодер</div>
                     <p class="member-desc">Создает уникальные плагины и модификации для нашего сервера.</p>
                 </div>
-                
-                
-                    
-                </div>
             </div>
         </div>
     </section>
@@ -1058,11 +1005,6 @@
             <div class="contact-content">
                 <div class="contact-info">
                     <h3>Контактная информация</h3>
-                    
-                    <div class="contact-item">
-                        
-                        
-                    </div>
                     
                     <div class="contact-item">
                         <div class="contact-icon">
@@ -1131,11 +1073,9 @@
                     <p>Ланучер для Minecraft Java Edition и Bedrock Edition. Присоединяйся к нам! У нас хорошее комьюнити.</p>
                     
                     <div class="social-links">
-                        
-                        <a href="#https://vk.com/twslauncher" target="_blank" rel="noopener noreferrer" class="social-link">
+                        <a href="https://vk.com/twslauncher" target="_blank" rel="noopener noreferrer" class="social-link">
                             <i class="fab fa-vk"></i>
                         </a>
-                       
                         <a href="#" class="social-link">
                             <i class="fab fa-telegram"></i>
                         </a>
@@ -1157,7 +1097,6 @@
                     <h4>Полезное</h4>
                     <ul>
                         <li><a href="#">Как скачать?</a></li>
-                        
                         <li><a href="#">Модификации и модпаки</a></li>
                         <li><a href="#">Частые вопросы</a></li>
                         <li><a href="#">Поддержать разработчиков :)</a></li>
@@ -1173,17 +1112,19 @@
     </footer>
     
     <script>
-        // Мобильное меню
+        // Мобильное меню - ИСПРАВЛЕННОЕ
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileNav = document.getElementById('mobileNav');
         const closeMenu = document.getElementById('closeMenu');
         
         mobileMenuBtn.addEventListener('click', () => {
             mobileNav.classList.add('active');
+            document.body.style.overflow = 'hidden';
         });
         
         closeMenu.addEventListener('click', () => {
             mobileNav.classList.remove('active');
+            document.body.style.overflow = '';
         });
         
         // Закрытие мобильного меню при клике на ссылку
@@ -1191,7 +1132,18 @@
         mobileNavLinks.forEach(link => {
             link.addEventListener('click', () => {
                 mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
             });
+        });
+        
+        // Закрытие мобильного меню при клике вне меню
+        document.addEventListener('click', (e) => {
+            if (!mobileNav.contains(e.target) && 
+                !mobileMenuBtn.contains(e.target) && 
+                mobileNav.classList.contains('active')) {
+                mobileNav.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
         
         // Плавная прокрутка
